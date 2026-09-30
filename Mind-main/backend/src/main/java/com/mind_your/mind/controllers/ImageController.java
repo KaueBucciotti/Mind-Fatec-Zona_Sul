@@ -5,6 +5,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Files;
@@ -19,7 +20,8 @@ public class ImageController {
     private final Path imageStorageLocation = Paths.get("uploads/users-pictures").toAbsolutePath().normalize();
 
     @GetMapping("/{filename:.+}")
-    public ResponseEntity<Resource> getImage(@PathVariable("filename") String filename) {
+    @SuppressWarnings("null")
+    public ResponseEntity<Resource> getImage(@PathVariable("filename") @NonNull String filename) {
         try {
             Path filePath = imageStorageLocation.resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
@@ -44,6 +46,7 @@ public class ImageController {
     }
 
     @GetMapping("/default")
+    @SuppressWarnings("null")
     public ResponseEntity<Resource> getDefaultImage() {
         try {
             // Imagem padrão caso não exista

@@ -1,6 +1,5 @@
 package com.mind_your.mind.dto.response;
 
-import java.time.LocalDate;
 
 public class PacienteResponseDTO {
     private String id;

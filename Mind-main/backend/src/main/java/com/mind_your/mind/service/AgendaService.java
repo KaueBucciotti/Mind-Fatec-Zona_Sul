@@ -8,7 +8,9 @@ import com.mind_your.mind.repository.AgendaRepository;
 import com.mind_your.mind.repository.HorarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,11 +25,17 @@ public class AgendaService {
     @Autowired
     private HorarioRepository horarioRepository;
 
+    @Transactional
+    @SuppressWarnings("null")
     public AgendaResponseDTO agendar(AgendaRequestDTO dto) {
+        if (dto.getHorarioId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID do horário é obrigatório.");
+        }
+
         Horario horario = horarioRepository.findById(dto.getHorarioId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Horário não encontrado."));
 
-        if (!horario.getDisponivel()) {
+        if (Boolean.FALSE.equals(horario.getDisponivel())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O horário selecionado não está mais disponível.");
         }
 
@@ -45,29 +53,35 @@ public class AgendaService {
         return toDTO(agenda);
     }
 
-    public List<AgendaResponseDTO> listarDoPsicologo(String psicologoId) {
+    public List<AgendaResponseDTO> listarDoPsicologo(@NonNull String psicologoId) {
         return agendaRepository.findByPsicologoId(psicologoId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<AgendaResponseDTO> listarDoPaciente(String pacienteId) {
+    public List<AgendaResponseDTO> listarDoPaciente(@NonNull String pacienteId) {
         return agendaRepository.findByPacienteId(pacienteId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public void cancelar(String id) {
+    @Transactional
+    @SuppressWarnings("null")
+    public void cancelar(@NonNull String id) {
         Agenda agenda = agendaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Agendamento não encontrado."));
 
         agenda.setStatus("CANCELADO");
         agendaRepository.save(agenda);
 
+        if (agenda.getHorarioId() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Horário vinculado não encontrado.");
+        }
+
         // Libera o horário novamente
         Horario horario = horarioRepository.findById(agenda.getHorarioId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Horário vinculado não encontrado."));
-        
+
         horario.setDisponivel(true);
         horarioRepository.save(horario);
     }

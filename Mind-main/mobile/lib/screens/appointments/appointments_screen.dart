@@ -222,7 +222,7 @@ class _AppointmentsScreenState extends State<AppointmentsScreen>
       child: ListView.separated(
         padding: const EdgeInsets.all(AppConstants.screenPadding),
         itemCount: consultas.length,
-        separatorBuilder: (_, __) => const SizedBox(height: AppConstants.spaceM),
+        separatorBuilder: (_, _) => const SizedBox(height: AppConstants.spaceM),
         itemBuilder: (context, index) {
           final consulta = consultas[index];
           // O primeiro item de "Próximas" ganha destaque quando é hoje,

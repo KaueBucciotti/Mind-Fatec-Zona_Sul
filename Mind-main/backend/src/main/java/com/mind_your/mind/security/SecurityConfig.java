@@ -18,9 +18,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 // Imports updated to remove unused items if any are detected as purely redundant by lint
-import com.mind_your.mind.security.AuthEntryPointJwt;
-import com.mind_your.mind.security.AuthTokenFilter;
-import com.mind_your.mind.security.UserDetailsServiceImpl;
 import java.util.Arrays;
 import org.springframework.http.HttpMethod;
 

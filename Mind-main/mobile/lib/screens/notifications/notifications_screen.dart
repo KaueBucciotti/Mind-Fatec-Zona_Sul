@@ -15,7 +15,7 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: substituir por dados reais vindos de um repositório/API.
+    // Nota: dados de exemplo — o backend ainda não expõe endpoint de notificações.
     final notificacoes = NotificationModel.mockList();
 
     return Scaffold(
@@ -30,7 +30,7 @@ class NotificationsScreen extends StatelessWidget {
             : ListView.separated(
                 padding: const EdgeInsets.all(AppConstants.screenPadding),
                 itemCount: notificacoes.length,
-                separatorBuilder: (_, __) => const SizedBox(height: AppConstants.spaceM),
+                separatorBuilder: (_, _) => const SizedBox(height: AppConstants.spaceM),
                 itemBuilder: (context, index) => _NotificationTile(notificacao: notificacoes[index]),
               ),
       ),

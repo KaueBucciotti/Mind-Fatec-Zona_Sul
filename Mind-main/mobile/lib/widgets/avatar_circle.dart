@@ -56,7 +56,7 @@ class AvatarCircle extends StatelessWidget {
               fit: BoxFit.cover,
               // Se a imagem não carregar (offline, arquivo removido), mostra
               // as iniciais em vez de um ícone de erro.
-              errorBuilder: (_, __, ___) => _buildIniciais(),
+              errorBuilder: (_, _, _) => _buildIniciais(),
             ),
     );
   }

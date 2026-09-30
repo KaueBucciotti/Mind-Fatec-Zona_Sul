@@ -162,7 +162,7 @@ class _SearchScreenState extends State<SearchScreen> {
           AppConstants.screenPadding,
         ),
         itemCount: resultados.length,
-        separatorBuilder: (_, __) => const SizedBox(height: AppConstants.spaceM),
+        separatorBuilder: (_, _) => const SizedBox(height: AppConstants.spaceM),
         itemBuilder: (context, index) {
           final psicologo = resultados[index];
           final temTelefone =

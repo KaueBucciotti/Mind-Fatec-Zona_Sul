@@ -4,7 +4,6 @@ import com.mind_your.mind.dto.request.PacienteUpdateRequestDTO;
 import com.mind_your.mind.dto.response.PacienteCadastroResponseDTO;
 import com.mind_your.mind.dto.response.PacienteResponseDTO;
 import com.mind_your.mind.dto.response.PacienteSessionResponseDTO;
-import com.mind_your.mind.dto.response.PacienteConfiguracoesResponseDTO;
 import com.mind_your.mind.models.Paciente;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

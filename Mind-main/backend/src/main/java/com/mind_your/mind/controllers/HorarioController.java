@@ -5,6 +5,7 @@ import com.mind_your.mind.dto.response.HorarioResponseDTO;
 import com.mind_your.mind.service.HorarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,22 +18,28 @@ public class HorarioController {
     private HorarioService horarioService;
 
     @PostMapping
-    public ResponseEntity<HorarioResponseDTO> criar(@RequestBody HorarioRequestDTO dto) {
+    @SuppressWarnings("null")
+    public ResponseEntity<HorarioResponseDTO> criar(@RequestBody @NonNull HorarioRequestDTO dto) {
         return ResponseEntity.ok(horarioService.criar(dto));
     }
 
     @GetMapping("/psicologo/{psicologoId}")
-    public ResponseEntity<List<HorarioResponseDTO>> listarTodosDoPsicologo(@PathVariable("psicologoId") String psicologoId) {
+    @SuppressWarnings("null")
+    public ResponseEntity<List<HorarioResponseDTO>> listarTodosDoPsicologo(
+            @PathVariable("psicologoId") @NonNull String psicologoId) {
         return ResponseEntity.ok(horarioService.listarTodosDoPsicologo(psicologoId));
     }
 
     @GetMapping("/psicologo/{psicologoId}/disponiveis")
-    public ResponseEntity<List<HorarioResponseDTO>> listarDisponiveisDoPsicologo(@PathVariable("psicologoId") String psicologoId) {
+    @SuppressWarnings("null")
+    public ResponseEntity<List<HorarioResponseDTO>> listarDisponiveisDoPsicologo(
+            @PathVariable("psicologoId") @NonNull String psicologoId) {
         return ResponseEntity.ok(horarioService.listarDisponiveisDoPsicologo(psicologoId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") String id) {
+    @SuppressWarnings("null")
+    public ResponseEntity<Void> deletar(@PathVariable("id") @NonNull String id) {
         horarioService.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -43,7 +43,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   void _aplicarFiltros() {
-    // TODO: repassar o objeto de filtros para a tela de busca via callback
+    // Nota: os filtros avançados ainda não são repassados à busca (sem suporte na API).
     // ou gerenciamento de estado global (Provider/Riverpod/Bloc).
     Navigator.pop(context);
   }

@@ -6,12 +6,7 @@ import com.mind_your.mind.dto.response.JwtResponseDTO;
 import com.mind_your.mind.dto.response.PacienteCadastroResponseDTO;
 import com.mind_your.mind.dto.response.PacienteResponseDTO;
 import com.mind_your.mind.dto.response.PacienteConfiguracoesResponseDTO;
-import com.mind_your.mind.dto.request.PacienteUpdateRequestDTO;
-import com.mind_your.mind.dto.response.JwtResponseDTO;
-import com.mind_your.mind.dto.response.PacienteCadastroResponseDTO;
-import com.mind_your.mind.dto.response.PacienteResponseDTO;
 import com.mind_your.mind.dto.response.PacienteSessionResponseDTO;
-import com.mind_your.mind.dto.response.PacienteConfiguracoesResponseDTO;
 import com.mind_your.mind.dto.response.UploadImagemResponseDTO;
 import com.mind_your.mind.models.Paciente;
 import com.mind_your.mind.repository.PacienteRepository;
@@ -28,11 +23,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import com.mind_your.mind.models.RefreshToken;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,7 +55,8 @@ public class PacienteService {
     @Autowired
     private EnderecoService enderecoService;
 
-    public PacienteCadastroResponseDTO cadastrar(PacienteCadastroRequestDTO dados) {
+    @SuppressWarnings("null")
+    public PacienteCadastroResponseDTO cadastrar(@NonNull PacienteCadastroRequestDTO dados) {
         Paciente paciente = new Paciente();
 
         paciente.setNome(dados.getNome());
@@ -70,13 +66,13 @@ public class PacienteService {
         paciente.setGenero(dados.getGenero());
         paciente.setTelefone(dados.getTelefone());
 
-        if(dados.getDtNascimento() != null) {
+        if (dados.getDtNascimento() != null) {
             paciente.setDtNascimento(dados.getDtNascimento());
         }
 
         paciente.setNumeroResidencia(dados.getNumeroResidencia());
 
-        if (dados.getCep() != null){
+        if (dados.getCep() != null) {
             enderecoService.obtemEnderecoPorCep(dados.getCep()).ifPresent(dadosEndereco -> {
                 paciente.setCep(dados.getCep());
                 paciente.setCidade(dadosEndereco.getCidade());
@@ -107,43 +103,48 @@ public class PacienteService {
     }
 
     // buscar por email
-    public Optional<PacienteResponseDTO> buscarPorEmail(String email) {
+    @SuppressWarnings("null")
+    public Optional<PacienteResponseDTO> buscarPorEmail(@NonNull String email) {
         return pacienteRepository.findByEmail(email)
                 .map(PacienteMapper::toResponseDTO);
     }
 
     // buscar por Id
-    public Optional<PacienteResponseDTO> buscarPorId(String id) {
+    @SuppressWarnings("null")
+    public Optional<PacienteResponseDTO> buscarPorId(@NonNull String id) {
         return pacienteRepository.findById(id)
                 .map(PacienteMapper::toResponseDTO);
     }
 
     // buscar configuracoes por Id
-    public Optional<PacienteConfiguracoesResponseDTO> buscarConfiguracoesPorId(String id) {
+    @SuppressWarnings("null")
+    public Optional<PacienteConfiguracoesResponseDTO> buscarConfiguracoesPorId(@NonNull String id) {
         checarPropriedade(id);
         return pacienteRepository.findById(id)
                 .map(PacienteMapper::toConfiguracoesResponseDTO);
     }
 
     // buscar por nome
-    public Optional<PacienteResponseDTO> buscarPorNome(String nome) {
+    @SuppressWarnings("null")
+    public Optional<PacienteResponseDTO> buscarPorNome(@NonNull String nome) {
         return pacienteRepository.findByNome(nome)
                 .map(PacienteMapper::toResponseDTO);
     }
 
     // buscar por login (email ou login) - Perfil Completo
-    public Optional<PacienteResponseDTO> buscarPorLogin(String login) {
+    public Optional<PacienteResponseDTO> buscarPorLogin(@NonNull String login) {
         Optional<Paciente> paciente = buscarPorLoginAuth(login);
         return paciente.map(PacienteMapper::toResponseDTO);
     }
 
     // buscar por login (email ou login) - Sessao
-    public Optional<PacienteSessionResponseDTO> buscarSessaoPorLogin(String login) {
+    public Optional<PacienteSessionResponseDTO> buscarSessaoPorLogin(@NonNull String login) {
         Optional<Paciente> paciente = buscarPorLoginAuth(login);
         return paciente.map(PacienteMapper::toSessionDTO);
     }
 
-    private Optional<Paciente> buscarPorLoginAuth(String login) {
+    @SuppressWarnings("null")
+    private Optional<Paciente> buscarPorLoginAuth(@NonNull String login) {
         if (login.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
             return pacienteRepository.findByEmail(login);
         }
@@ -151,7 +152,8 @@ public class PacienteService {
     }
 
     // atualizar
-    public Optional<PacienteResponseDTO> atualizar(String id, PacienteUpdateRequestDTO dados) {
+    @SuppressWarnings("null")
+    public Optional<PacienteResponseDTO> atualizar(@NonNull String id, @NonNull PacienteUpdateRequestDTO dados) {
         checarPropriedade(id);
         return pacienteRepository.findById(id).map(paciente -> {
             PacienteMapper.updatePacienteFromDTO(dados, paciente, passwordEncoder);
@@ -161,7 +163,8 @@ public class PacienteService {
     }
 
     // deletar por ID
-    public boolean deletarPorId(String id) {
+    @SuppressWarnings("null")
+    public boolean deletarPorId(@NonNull String id) {
         checarPropriedade(id);
         if (pacienteRepository.existsById(id)) {
             pacienteRepository.deleteById(id);
@@ -171,7 +174,7 @@ public class PacienteService {
     }
 
     // fazer login com JWT
-    public Optional<JwtResponseDTO> fazerLogin(String login, String senha) {
+    public Optional<JwtResponseDTO> fazerLogin(@NonNull String login, @NonNull String senha) {
         return buscarPorLoginAuth(login)
                 .filter(p -> passwordEncoder.matches(senha, p.getSenha()))
                 .map(p -> {
@@ -186,7 +189,8 @@ public class PacienteService {
     }
 
     // upload imagem de perfil
-    public Optional<UploadImagemResponseDTO> uploadImagem(String id, MultipartFile file) {
+    @SuppressWarnings("null")
+    public Optional<UploadImagemResponseDTO> uploadImagem(@NonNull String id, @NonNull MultipartFile file) {
         checarPropriedade(id);
         try {
             String contentType = file.getContentType();
@@ -237,10 +241,9 @@ public class PacienteService {
         }
     }
 
-    private void checarPropriedade(String id) {
+    private void checarPropriedade(@NonNull String id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof UserDetailsImpl) {
-            UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+        if (auth != null && auth.getPrincipal() instanceof UserDetailsImpl user) {
             if (!user.getId().equals(id)) {
                 throw new RuntimeException("Acesso negado: Você não tem permissão para acessar ou modificar dados de outro usuário.");
             }

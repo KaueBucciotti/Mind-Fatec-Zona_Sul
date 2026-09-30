@@ -5,6 +5,7 @@ import com.mind_your.mind.dto.response.AgendaResponseDTO;
 import com.mind_your.mind.service.AgendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,22 +18,28 @@ public class AgendaController {
     private AgendaService agendaService;
 
     @PostMapping
-    public ResponseEntity<AgendaResponseDTO> agendar(@RequestBody AgendaRequestDTO dto) {
+    @SuppressWarnings("null")
+    public ResponseEntity<AgendaResponseDTO> agendar(@RequestBody @NonNull AgendaRequestDTO dto) {
         return ResponseEntity.ok(agendaService.agendar(dto));
     }
 
     @GetMapping("/psicologo/{psicologoId}")
-    public ResponseEntity<List<AgendaResponseDTO>> listarDoPsicologo(@PathVariable("psicologoId") String psicologoId) {
+    @SuppressWarnings("null")
+    public ResponseEntity<List<AgendaResponseDTO>> listarDoPsicologo(
+            @PathVariable("psicologoId") @NonNull String psicologoId) {
         return ResponseEntity.ok(agendaService.listarDoPsicologo(psicologoId));
     }
 
     @GetMapping("/paciente/{pacienteId}")
-    public ResponseEntity<List<AgendaResponseDTO>> listarDoPaciente(@PathVariable("pacienteId") String pacienteId) {
+    @SuppressWarnings("null")
+    public ResponseEntity<List<AgendaResponseDTO>> listarDoPaciente(
+            @PathVariable("pacienteId") @NonNull String pacienteId) {
         return ResponseEntity.ok(agendaService.listarDoPaciente(pacienteId));
     }
 
     @PutMapping("/{id}/cancelar")
-    public ResponseEntity<Void> cancelar(@PathVariable("id") String id) {
+    @SuppressWarnings("null")
+    public ResponseEntity<Void> cancelar(@PathVariable("id") @NonNull String id) {
         agendaService.cancelar(id);
         return ResponseEntity.noContent().build();
     }

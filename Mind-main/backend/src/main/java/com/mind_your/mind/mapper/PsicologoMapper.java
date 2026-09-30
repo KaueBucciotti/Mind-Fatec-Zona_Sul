@@ -8,7 +8,6 @@ import com.mind_your.mind.dto.response.PsicologoResponseDTO;
 import com.mind_your.mind.models.Psicologo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
 
 public class PsicologoMapper {
 

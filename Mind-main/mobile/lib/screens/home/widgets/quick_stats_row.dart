@@ -11,7 +11,7 @@ import '../../../core/theme/app_text_styles.dart';
 /// Reaproveitado na Home e no Perfil.
 /// -----------------------------------------------------------------------
 class QuickStatsRow extends StatelessWidget {
-  final List<_StatItem> itens;
+  final List<StatItem> itens;
 
   const QuickStatsRow({super.key, required this.itens});
 
@@ -23,9 +23,9 @@ class QuickStatsRow extends StatelessWidget {
     required int percentualPresenca,
   }) {
     return QuickStatsRow(itens: [
-      _StatItem(valor: '$sessoes', label: 'Sessões'),
-      _StatItem(valor: '$meses', label: 'Meses'),
-      _StatItem(valor: '$percentualPresenca%', label: 'Presença'),
+      StatItem(valor: '$sessoes', label: 'Sessões'),
+      StatItem(valor: '$meses', label: 'Meses'),
+      StatItem(valor: '$percentualPresenca%', label: 'Presença'),
     ]);
   }
 
@@ -36,9 +36,9 @@ class QuickStatsRow extends StatelessWidget {
     required int psicologos,
   }) {
     return QuickStatsRow(itens: [
-      _StatItem(valor: '$sessoes', label: 'Sessões'),
-      _StatItem(valor: '$meses', label: 'Meses'),
-      _StatItem(valor: '$psicologos', label: 'Psicólogos'),
+      StatItem(valor: '$sessoes', label: 'Sessões'),
+      StatItem(valor: '$meses', label: 'Meses'),
+      StatItem(valor: '$psicologos', label: 'Psicólogos'),
     ]);
   }
 
@@ -69,8 +69,9 @@ class QuickStatsRow extends StatelessWidget {
   }
 }
 
-class _StatItem {
+/// Um cartão da linha de estatísticas (valor + rótulo).
+class StatItem {
   final String valor;
   final String label;
-  const _StatItem({required this.valor, required this.label});
+  const StatItem({required this.valor, required this.label});
 }

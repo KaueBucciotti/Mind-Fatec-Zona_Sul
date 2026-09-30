@@ -6,6 +6,7 @@ import com.mind_your.mind.models.Horario;
 import com.mind_your.mind.repository.HorarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,7 +19,8 @@ public class HorarioService {
     @Autowired
     private HorarioRepository horarioRepository;
 
-    public HorarioResponseDTO criar(HorarioRequestDTO dto) {
+    @SuppressWarnings("null")
+    public HorarioResponseDTO criar(@NonNull HorarioRequestDTO dto) {
         // Validação: não pode sobrepor um horário existente no mesmo dia da semana
         List<Horario> horariosDoDia = horarioRepository.findByPsicologoIdAndDiaDaSemana(
                 dto.getPsicologoId(), dto.getDiaDaSemana());
@@ -45,19 +47,20 @@ public class HorarioService {
         return toDTO(horario);
     }
 
-    public List<HorarioResponseDTO> listarTodosDoPsicologo(String psicologoId) {
+    public List<HorarioResponseDTO> listarTodosDoPsicologo(@NonNull String psicologoId) {
         return horarioRepository.findByPsicologoId(psicologoId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<HorarioResponseDTO> listarDisponiveisDoPsicologo(String psicologoId) {
+    public List<HorarioResponseDTO> listarDisponiveisDoPsicologo(@NonNull String psicologoId) {
         return horarioRepository.findByPsicologoIdAndDisponivelTrue(psicologoId).stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public void deletar(String id) {
+    @SuppressWarnings("null")
+    public void deletar(@NonNull String id) {
         if (!horarioRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Horário não encontrado.");
         }

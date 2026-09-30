@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           label: 'Notificações',
           trailing: Switch(
             value: _notificacoesAtivas,
-            activeColor: AppColors.accent,
+            activeThumbColor: AppColors.accent,
             onChanged: (valor) => setState(() => _notificacoesAtivas = valor),
           ),
         ),

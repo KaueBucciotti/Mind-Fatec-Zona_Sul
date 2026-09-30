@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.HttpClientErrorException;
@@ -25,7 +26,9 @@ public class EnderecoService implements IEnderecoService {
         this.restTemplate = restTemplate;
     }
 
-    public Optional<Endereco> obtemLogradouroPorCep(String cep) {
+    @Override
+    @SuppressWarnings("null")
+    public Optional<Endereco> obtemLogradouroPorCep(@NonNull String cep) {
         try {
             ResponseEntity<Endereco> response = restTemplate.exchange(
                 API_URL,
@@ -34,16 +37,15 @@ public class EnderecoService implements IEnderecoService {
                 Endereco.class,
                 cep);
             return Optional.ofNullable(response.getBody());
-        } catch (HttpClientErrorException e) {
-            System.out.println("Erro ao buscar CEP: " + e.getMessage());
-            return Optional.empty();
-        } catch (ResourceAccessException e) {
+        } catch (HttpClientErrorException | ResourceAccessException e) {
             System.out.println("Erro ao buscar CEP: " + e.getMessage());
             return Optional.empty();
         }
     }
 
-    public Optional<EnderecoResponseDTO> obtemEnderecoPorCep(String cep) {
+    @Override
+    @SuppressWarnings("null")
+    public Optional<EnderecoResponseDTO> obtemEnderecoPorCep(@NonNull String cep) {
         try {
             ResponseEntity<Endereco> response = restTemplate.exchange(
                 API_URL,
@@ -57,13 +59,9 @@ public class EnderecoService implements IEnderecoService {
                 return Optional.of(EnderecoMapper.toResponseDTO(endereco));
             }
             return Optional.empty();
-        } catch (HttpClientErrorException e) {
-            System.out.println("Erro ao buscar CEP: " + e.getMessage());
-            return Optional.empty();
-        } catch (ResourceAccessException e) {
+        } catch (HttpClientErrorException | ResourceAccessException e) {
             System.out.println("Erro ao buscar CEP: " + e.getMessage());
             return Optional.empty();
         }
     }
-
 }

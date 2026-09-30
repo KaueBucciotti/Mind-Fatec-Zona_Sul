@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +22,15 @@ public class EnderecoController {
     private EnderecoService enderecoService;
 
     @GetMapping("/{cep}")
-    public ResponseEntity<EnderecoResponseDTO> getEndereco(@PathVariable("cep") String cep) {
+    @SuppressWarnings("null")
+    public ResponseEntity<EnderecoResponseDTO> getEndereco(@PathVariable("cep") @NonNull String cep) {
         Optional<EnderecoResponseDTO> endereco = enderecoService.obtemEnderecoPorCep(cep);
         return endereco.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/logadouro/{cep}")
-    public ResponseEntity<Endereco> getLogradouro(@PathVariable("cep") String cep) {
+    @SuppressWarnings("null")
+    public ResponseEntity<Endereco> getLogradouro(@PathVariable("cep") @NonNull String cep) {
         Optional<Endereco> endereco = enderecoService.obtemLogradouroPorCep(cep);
         return endereco.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
