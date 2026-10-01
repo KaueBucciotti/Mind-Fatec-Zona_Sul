@@ -14,9 +14,9 @@
         <domain includeSubdomains="false">127.0.0.1</domain>
         <!--
           Para testar em celular físico, adicione aqui o IP da máquina que
-          roda o backend (o mesmo passado em --dart-define=API_BASE_URL),
+          roda o backend (o mesmo passado em API_BASE_URL na execução),
           uma linha por endereço. Exemplo:
-          <domain includeSubdomains="false">192.168.0.15</domain>
+          <domain includeSubdomains="false">192.168.0.7</domain>
         -->
     </domain-config>
 </network-security-config>

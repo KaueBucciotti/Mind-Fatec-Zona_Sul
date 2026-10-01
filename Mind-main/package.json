@@ -4,6 +4,7 @@
     "react-router-dom": "^7.8.2"
   },
   "scripts": {
+    "start": "rodar-tudo.bat",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && ./mvnw spring-boot:run",
     "dev:mobile": "cd mobile && flutter run",
@@ -13,9 +14,8 @@
     "start:backend": "cd backend && mvnw.cmd spring-boot:run",
     "start:frontend": "npm run dev --prefix frontend",
     "start:mobile": "cd mobile && flutter run",
-    "dev": "concurrently --kill-others --names \"BACK,FRONT\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\"",
-    "dev:all": "concurrently --kill-others-on-fail --names \"BACK,FRONT,APP\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"npm run start:backend\" \"npm run start:frontend\" \"npm run wait-and-run-mobile\"",
-    "wait-and-run-mobile": "node scripts/wait-for-backend.js && npm run start:mobile",
+    "dev": "concurrently --names \"BACK,FRONT\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\"",
+    "dev:all": "concurrently --names \"BACK,FRONT\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run start:backend\" \"npm run start:frontend\"",
     "devices": "cd mobile && flutter devices",
     "emulators": "cd mobile && flutter emulators",
     "reset:db": "node reset-db.js"
